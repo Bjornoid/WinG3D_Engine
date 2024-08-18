@@ -1,0 +1,53 @@
+// The level system is responsible for transitioning the various levels in the game
+#ifndef LEVELLOGIC_H
+#define LEVELLOGIC_H
+
+// Contains our global game settings
+#include "../GameConfig.h"
+// Entities for players, enemies & bullets
+
+// snake game (avoid name collisions)
+namespace Wing3D
+{
+	class LevelLogic
+	{
+		unsigned int mushroomsToSpawn = 25;
+		float mushroomRegenTime = 0;
+
+		float spiderTime = 0;
+
+		flecs::entity pressEnterText;
+		flecs::entity gameOverText;
+		flecs::entity pauseText;
+
+		// shared connection to the main ECS engine
+		std::shared_ptr<flecs::world> game;
+		// async version of above for threaded operations
+		flecs::world gameAsync; 
+		// mutex used to protect access to gameAsync 
+		GW::CORE::GThreadShared gameLock;
+		GW::CORE::GThreadShared scoreLock;
+		GW::CORE::GThreadShared snakePieceLock;
+		GW::CORE::GThreadShared tileListLock;
+		// non-ownership handle to configuration settings
+		std::weak_ptr<const GameConfig> gameConfig;
+		// Level system will also load and switch music
+		GW::AUDIO::GAudio audioEngine;
+		GW::AUDIO::GMusic currentTrack;
+		// Used to spawn enemies at a regular intervals on another thread
+		GW::SYSTEM::GDaemon timedEvents;
+	public:
+		// attach the required logic to the ECS 
+		bool Init(	std::shared_ptr<flecs::world> _game,
+					std::weak_ptr<const GameConfig> _gameConfig,
+					GW::AUDIO::GAudio _audioEngine);
+		// control if the system is actively running
+		bool Activate(bool runSystem);
+		// release any resources allocated by the system
+		bool Shutdown();
+		float levelMultiplier;
+	};
+
+};
+
+#endif
