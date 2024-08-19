@@ -104,9 +104,18 @@ bool Wing3D::DirX12RendererLogic::SetupDrawcalls()
 
     updateDraw = game->system<Position, Orientation, Material>().kind(flecs::OnUpdate)
         .each([this](flecs::entity e, Position& p, Orientation& o, Material& m) {
-        //nothing here yet
-        
+ 
+        int modelIndex = lvlData.ModelIndices[e.get<Model>()->name];
 
+        GW::MATH::GMATRIXF entM = GW::MATH::GIdentityMatrixF;
+        // orient
+        GW::MATH::GMatrix::RotateXLocalF(entM, G_DEGREE_TO_RADIAN_F(o.value.x), entM);
+        GW::MATH::GMatrix::RotateYLocalF(entM, G_DEGREE_TO_RADIAN_F(o.value.y), entM);
+        GW::MATH::GMatrix::RotateZLocalF(entM, G_DEGREE_TO_RADIAN_F(o.value.z), entM);
+        // pos
+        entM.row4.x = p.value.x;
+        entM.row4.y = p.value.y;
+        entM.row4.z = p.value.z;
     });
 
     completeDraw = game->system<RenderingSystem>().kind(flecs::PostUpdate)

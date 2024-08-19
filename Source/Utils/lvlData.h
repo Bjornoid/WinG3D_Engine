@@ -1,4 +1,5 @@
 #include "h2bParser.h"
+#include <unordered_map>
 
 
 class Level_Data {
@@ -47,6 +48,7 @@ public:
 	std::vector<MODEL_INSTANCES> levelInstances;
 	// *NEW* each item from the blender scene graph
 	std::vector<BLENDER_OBJECT> blenderObjects;
+	std::unordered_map<const char*, int> ModelIndices;
 
 	// Imports the default level txt format and collects all .h2b data
 	bool LoadLevel(const char* gameLevelPath,
@@ -324,6 +326,8 @@ private:
 						instances.modelIndex, instances.transformStart + offset++
 					};
 					blenderObjects.push_back(obj);
+
+					ModelIndices[i->blenderNames[j].c_str()] = instances.modelIndex;
 				}
 			}
 			else {

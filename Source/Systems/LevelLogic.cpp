@@ -2,6 +2,7 @@
 #include "LevelLogic.h"
 #include "../Components/Identification.h"
 #include "../Components/Physics.h"
+#include "../Components/Visuals.h"
 #include "../Entities/Prefabs.h"
 #include "../Utils/Macros.h"
 #include "../Components/Gameplay.h"
@@ -39,7 +40,21 @@ bool Wing3D::LevelLogic::Init(std::shared_ptr<flecs::world> _game,
 
 	game->system<LevelSystem>().each([this, readCfg](flecs::entity ent, LevelSystem& s)
 		{
+			flecs::entity playerEnt;
+			if (RetreivePrefab("Player", playerEnt))
+			{
+				gameLock.LockSyncWrite();
+				gameAsync.entity().is_a(playerEnt)
+					.set<Position>({ 0, 0, 0 })
+					.set<Model>({ "Pig" })
+					.set<Orientation>({ 0, 0, 0 })
+					.set<Camera>({ { 0, 15, -20 }, { -18, 0, 0 } })
+					.set<Material>({ 1, 1, 1 })
+					.set<ControllerID>({ 0 })
+					.add<Player>();
 
+				gameLock.UnlockSyncWrite();
+			}
 		}
 	);
 
