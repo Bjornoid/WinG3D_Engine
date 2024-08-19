@@ -377,6 +377,8 @@ namespace Wing3D
 
 		void InitializeViewMatrix()
 		{
+			// Hard Coded
+			//TODO: Make data driven
 			GW::MATH::GVECTORF eye = { 0.25f, 6.5f, -0.25f, 0 };
 			GW::MATH::GVECTORF at = { 0, 0, 0, 0 };
 			GW::MATH::GVECTORF up = { 0, 1, 0, 0 };

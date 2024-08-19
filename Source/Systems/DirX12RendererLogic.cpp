@@ -15,6 +15,8 @@ bool Wing3D::DirX12RendererLogic::Init(std::shared_ptr<flecs::world> _game, std:
     log.EnableConsoleLogging(true);
     lvlData.LoadLevel("../Assets/GameLevel.txt", "../Assets/Models", log);
 
+
+
     // save a handle to the ECS & game settings
     game = _game;
     gameConfig = _gameConfig;

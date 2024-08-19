@@ -17,7 +17,7 @@ bool Wing3D::PlayerData::Load(std::shared_ptr<flecs::world> _game, std::weak_ptr
 		m = { };
 		o = {  };
 		mo = { "Player" };
-		GW::MATH2D::GMatrix2D::Scale2F(o.value, GW::MATH2D::GVECTOR2F{  }, o.value);
+		GW::MATH2D::GMatrix2D::ScaleGlobal3F(o.value, GW::MATH2D::GVECTOR2F{  }, o.value);
 			})
 		.add<Collidable>()
 		.add<Player>(); // Tag this entity as a Player
