@@ -18,11 +18,10 @@ namespace Wing3D
 		// used to cache collision queries
 		flecs::query<Collidable, Position, Orientation> queryCache;
 		// defines what to be tested
-		static constexpr unsigned polysize = 4;
 		struct SHAPE {
-			GW::MATH2D::GVECTOR2F poly[polysize];
-			flecs::entity owner;
+
 		};
+
 		// vector used to save/cache all active collidables
 		std::vector<SHAPE> testCache;
 	public:
